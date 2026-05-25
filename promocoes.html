@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoções - QPIZZA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .promocoes-page {
+            min-height: 100vh;
+            padding: 140px 20px 80px;
+            background: linear-gradient(rgba(28, 26, 25, 0.95), rgba(28, 26, 25, 0.95)), url('fundo site.jpeg') center/cover no-repeat fixed;
+        }
+        .promocoes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .promo-card {
+            background-color: var(--bg-alt);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #444;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .promo-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--brand-orange);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+        .promo-badge {
+            background-color: var(--brand-orange);
+            color: white;
+            padding: 5px 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            align-self: flex-start;
+            border-bottom-right-radius: 10px;
+        }
+        .promo-content {
+            padding: 25px;
+        }
+        .promo-content h3 {
+            color: var(--brand-orange);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .promo-price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: #fff;
+        }
+        .promo-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            color: var(--brand-orange);
+        }
+        .combo-badge {
+            background-color: var(--brand-orange);
+            font-size: 1rem;
+            padding: 8px 20px;
+            letter-spacing: 2px;
+            font-family: 'Nunito', sans-serif;
+            border-bottom-right-radius: 14px;
+        }
+        .serve-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+        .promo-aviso {
+            background-color: rgba(241, 82, 35, 0.1);
+            border-left: 3px solid var(--brand-orange);
+            color: #ffb49a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .categorias {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 30px 0 10px;
+        }
+        .categoria-btn {
+            background-color: #2c2a29;
+            color: var(--text-muted);
+            border: 2px solid #444;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .categoria-btn:hover {
+            border-color: var(--brand-orange);
+            color: var(--brand-orange);
+        }
+        .categoria-btn.ativo {
+            background-color: var(--brand-orange);
+            border-color: var(--brand-orange);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(241, 82, 35, 0.4);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            display: none;
+            width: 100%;
+        }
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+        .promo-card {
+            display: none;
+        }
+        .promo-card.visivel {
+            display: flex;
+        }
+        .promo-card-full {
+            grid-column: 1 / -1;
+        }
+        .promo-card-full.visivel {
+            display: flex;
+            flex-direction: column;
+        }
+        .terca-quarta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 5px;
+        }
+        .terca-quarta-grid h4 {
+            font-family: 'Nunito', sans-serif;
+            color: var(--brand-orange);
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+        .pizza-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 0;
+            border-bottom: 1px solid #333;
+            font-size: 0.92rem;
+        }
+        .pizza-item:last-child {
+            border-bottom: none;
+        }
+        .pizza-nome {
+            color: #eee;
+            font-weight: 500;
+        }
+        .pizza-preco {
+            color: var(--brand-orange);
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            white-space: nowrap;
+            margin-left: 12px;
+        }
+        .preco-unico {
+            display: inline-block;
+            background: rgba(10, 10, 10, 0.6);
+            color: #ffffff;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            padding: 6px 18px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(241, 82, 35, 0.3);
+            text-shadow: 0 0 18px rgba(241, 82, 35, 0.7);
+        }
+        .esfiha-item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        .esfiha-item:last-child {
+            border-bottom: none;
+        }
+        .esfiha-item .pizza-nome {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .esfiha-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        .pizzas-grandes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 20px;
+        }
+        @media (max-width: 640px) {
+            .terca-quarta-grid {
+                grid-template-columns: 1fr;
+            }
+            .pizzas-grandes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <div class="logo">
+                <a href="index.html"><img src="qpizza2.logo.png" alt="QPIZZA Logo"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="informacoes.html">Informações</a></li>
+                    <li><a href="historia.html">Nossa História</a></li>
+                    <li><a href="index.html#localizacao">Localização</a></li>
+                    <li><a href="feedback.html" target="_blank">Deixe seu Feedback</a></li>
+                    <li><a href="trabalhe-conosco.html" target="_blank">Trabalhe Conosco</a></li>
+                    <li><a href="#" class="btn-reserva btn-pedido-smart">Faça seu Pedido</a></li>
+                    <li><a href="reserva.html" class="btn-reserva btn-reserva-outline">Faça sua reserva</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="promocoes-page">
+        <div class="container">
+            <a href="index.html" class="back-btn">&larr; Voltar para o início</a>
+            <h1 class="section-title">Nossas Promoções</h1>
+
+            <div class="categorias">
+                <button class="categoria-btn ativo" data-cat="pizza">🍕 Pizza</button>
+                <button class="categoria-btn" data-cat="frango">🍗 Centro Pote — Frango Frito</button>
+                <button class="categoria-btn" data-cat="esfihas">🫓 Esfihas</button>
+                <button class="categoria-btn" data-cat="hotdogs">🌭 Hot-Dogs</button>
+            </div>
+
+            <div class="promocoes-grid">
+                <!-- Terça e Quarta Maluca -->
+                <div class="promo-card promo-card-full visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge" style="align-self: flex-start;">🔥 TERÇA E QUARTA MALUCA</div>
+                    <div class="promo-content">
+                        <div class="terca-quarta-grid">
+                            <!-- Pizzas Médias -->
+                            <div>
+                                <h4>🍕 Pizzas Médias</h4>
+                                <div class="pizza-item"><span class="pizza-nome">Abacaxi com Canela e Açúcar</span><span class="pizza-preco">R$ 39,90</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Banana com Canela e Açúcar</span><span class="pizza-preco">R$ 35,00</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Banana com Chocolate</span><span class="pizza-preco">R$ 39,90</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Chocolate ao Leite</span><span class="pizza-preco">R$ 39,00</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Uva Verde com Chocolate</span><span class="pizza-preco">R$ 45,00</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Churros</span><span class="pizza-preco">R$ 39,90</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Confetes com Chocolate ao Leite</span><span class="pizza-preco">R$ 45,00</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Ninho do Chef</span><span class="pizza-preco">R$ 45,00</span></div>
+                                <div class="pizza-item"><span class="pizza-nome">Morango com Chocolate</span><span class="pizza-preco">R$ 45,00</span></div>
+                            </div>
+                            <!-- Pizzas Grandes -->
+                            <div>
+                                <h4 style="display:flex; align-items:center; gap:12px;">🍕 Pizzas Grandes <span class="preco-unico" style="font-size:1rem; padding: 3px 12px; margin-bottom:0;">R$ 59,00 cada</span></h4>
+                                <div class="pizzas-grandes-grid">
+                                    <div class="pizza-item"><span class="pizza-nome">Calabresa</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Calabresa Paulista</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Du Chefe</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Marguerita</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Mussarela</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Palmito Cremosa</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Frango com Catupiry</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Frango com Cream Cheese</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Morumbi</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Santana</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Portuguesa</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Masterchef (sem lactose)</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Costela Especial</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Pernil</span></div>
+                                    <div class="pizza-item"><span class="pizza-nome">Pepperoni</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="promo-aviso" style="margin-top: 24px;">
+                            ❗ Preço válido sem borda recheada. Sabor inteiro apenas — não é possível meio a meio.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Combo 01 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 01</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 152,90</div>
+                        <p>Pizza Grande de Calabresa + Pizza Grande de Marguerita + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 02 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 02</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 152,90</div>
+                        <p>Pizza Grande de Portuguesa + Pizza Grande de Frango Catupiry + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+                <!-- Combo 03 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 03</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 149,90</div>
+                        <p>Pizza Grande de Calabresa + Pizza Grande metade Frango Catupiry / metade Morumbi + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 04 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 04</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 142,90</div>
+                        <p>Pizza Grande metade Marguerita / metade Quatro Queijos + Pizza Grande metade Banana com Canela / metade Morumbi + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 05 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 05</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 152,90</div>
+                        <p>Pizza Grande metade Pepperoni / metade Calabresa + Pizza Grande metade Portuguesa / metade Morumbi + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 06 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 06</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 161,90</div>
+                        <p>Pizza Grande metade Frango Catupiry / metade Morumbi + Pizza Grande metade Palmito / metade Brócolis + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 07 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 07</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 154,90</div>
+                        <p>Pizza Grande metade Portuguesa / metade Bacon + Pizza Grande metade Mussarela / metade Pepperoni + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 08 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 08</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 160,90</div>
+                        <p>Pizza Grande metade Frango Catupiry / metade Pepperoni + Pizza Grande metade Du Chef / metade Milho + Guaraná 1,5L (brinde).</p>
+                        <p class="serve-info">Serve até 8 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 09 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 09</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 95,90</div>
+                        <p>Pizza Grande metade Calabresa / metade Marguerita + 3 esfihas de banana.</p>
+                        <p class="serve-info">Serve até 4 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 10 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 10</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 95,90</div>
+                        <p>Pizza Grande metade Portuguesa / metade Quatro Queijos + 3 esfihas de banana.</p>
+                        <p class="serve-info">Serve até 4 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 11 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 11</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 95,90</div>
+                        <p>Pizza Grande metade Frango Catupiry / metade Calabresa + 3 esfihas de banana.</p>
+                        <p class="serve-info">Serve até 4 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- Combo 12 -->
+                <div class="promo-card visivel" data-categoria="pizza">
+                    <div class="promo-badge combo-badge">COMBO 12</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 95,90</div>
+                        <p>Pizza Grande metade Portuguesa / metade Calabresa + 3 esfihas de banana.</p>
+                        <p class="serve-info">Serve até 4 pessoas.</p>
+                        <div class="promo-aviso">❗ Não é possível fazer alterações nos combos.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+                <!-- ESFIHAS: 3 por R$ 19,90 -->
+                <div class="promo-card promo-card-full" data-categoria="esfihas">
+                    <div class="promo-badge combo-badge">🫓 3 ESFIHAS</div>
+                    <div class="promo-content">
+                        <div class="promo-price" style="margin-bottom: 20px;">R$ 19,90 <span style="font-size: 0.95rem; font-weight: 400; color: var(--text-muted); text-shadow: none; text-decoration: none;">cada combo</span></div>
+                        <div class="terca-quarta-grid">
+                            <!-- Salgadas -->
+                            <div>
+                                <h4>🧅 Salgadas</h4>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Bacon</span>
+                                    <span class="esfiha-desc">Mussarela, bacon crocante e orégano.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Brócolis com Catupiry</span>
+                                    <span class="esfiha-desc">Mussarela, brócolis fresquinho, catupiry cremoso e orégano.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Calabresa</span>
+                                    <span class="esfiha-desc">Calabresa com catupiry cremoso.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Calabresa com Catupiry</span>
+                                    <span class="esfiha-desc">Calabresa com catupiry cremoso e sabor equilibrado.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Carne</span>
+                                    <span class="esfiha-desc">Carne temperada, cebola, tomate e suco de limão. <em>Obs.: não é possível retirar a cebola.</em></span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Frango</span>
+                                    <span class="esfiha-desc">Mussarela, frango desfiado, catupiry cremoso e orégano.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Marguerita</span>
+                                    <span class="esfiha-desc">Queijo derretido, tomate em rodelas e manjericão.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Milho com Catupiry</span>
+                                    <span class="esfiha-desc">Mussarela, milho docinho, catupiry e orégano.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Palmito</span>
+                                    <span class="esfiha-desc">Mussarela, palmito selecionado e orégano.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Pepperoni</span>
+                                    <span class="esfiha-desc">Mussarela derretida, pepperoni fatiado e orégano.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Queijo</span>
+                                    <span class="esfiha-desc">Queijo derretido na medida certa, massa leve e macia.</span>
+                                </div>
+                            </div>
+                            <!-- Doces -->
+                            <div>
+                                <h4>🍫 Doces</h4>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Banana com Canela</span>
+                                    <span class="esfiha-desc">Mussarela, banana fresca, açúcar e canela.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Banana com Doce de Leite</span>
+                                    <span class="esfiha-desc">Mussarela, banana, doce de leite cremoso e canela.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Chocolate</span>
+                                    <span class="esfiha-desc">Mussarela com chocolate cremoso.</span>
+                                </div>
+                                <div class="esfiha-item">
+                                    <span class="pizza-nome">Doce de Leite</span>
+                                    <span class="esfiha-desc">Mussarela, doce de leite e um toque de canela.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ESFIHAS: 4 de Carne - MAIS PEDIDA -->
+                <div class="promo-card" data-categoria="esfihas">
+                    <div class="promo-badge combo-badge" style="background: #c0392b;">⭐ MAIS PEDIDA</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 17,90</div>
+                        <p><strong>4 Esfihas de Carne</strong></p>
+                        <p style="margin-top: 8px;">Carne temperada, cebola, tomate e suco de limão.</p>
+                        <div class="promo-aviso" style="margin-top: 16px;">❗ Não é possível fazer alterações nos combos, nem retirar a cebola do recheio de carne.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- ESFIHAS: Combo 8 -->
+                <div class="promo-card" data-categoria="esfihas">
+                    <div class="promo-badge combo-badge">COMBO 8</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 38,90</div>
+                        <p>6 esfihas de carne + 2 esfihas de queijo.</p>
+                        <div class="promo-aviso" style="margin-top: 16px;">❗ Não é possível fazer alterações nos combos, nem retirar a cebola do recheio de carne.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- ESFIHAS: Combo 10 -->
+                <div class="promo-card" data-categoria="esfihas">
+                    <div class="promo-badge combo-badge">COMBO 10</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 48,90</div>
+                        <p>4 esfihas de queijo + 6 esfihas de carne.</p>
+                        <div class="promo-aviso" style="margin-top: 16px;">❗ Não é possível fazer alterações nos combos, nem retirar a cebola do recheio de carne.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- ESFIHAS: Combo 15 -->
+                <div class="promo-card" data-categoria="esfihas">
+                    <div class="promo-badge combo-badge">COMBO 15</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 74,90</div>
+                        <p>15 esfihas: 10 de carne + 5 de queijo.</p>
+                        <div class="promo-aviso" style="margin-top: 16px;">❗ Não é possível fazer alterações nos combos, nem retirar a cebola do recheio de carne.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- ESFIHAS: Combo 20 -->
+                <div class="promo-card" data-categoria="esfihas">
+                    <div class="promo-badge combo-badge">COMBO 20</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 82,90</div>
+                        <p>20 esfihas: 10 de carne + 10 de queijo.</p>
+                        <div class="promo-aviso" style="margin-top: 16px;">❗ Não é possível fazer alterações nos combos, nem retirar a cebola do recheio de carne.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- ESFIHAS: Combo 25 -->
+                <div class="promo-card" data-categoria="esfihas">
+                    <div class="promo-badge combo-badge">COMBO 25</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 103,90</div>
+                        <p>25 esfihas: 15 de carne + 10 de queijo.</p>
+                        <div class="promo-aviso" style="margin-top: 16px;">❗ Não é possível fazer alterações nos combos, nem retirar a cebola do recheio de carne.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Feito pra Você - Filezinho -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 FEITO PRA VOCÊ</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 39,90</div>
+                        <p><strong>Filezinho de Peito</strong></p>
+                        <p style="margin-top: 8px;">6 pedaços de filé de frango empanados + 1 molho da casa + Refrigerante lata.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve bem 1 pessoa.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Feito pra Você - Tulipa -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 FEITO PRA VOCÊ</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 38,90</div>
+                        <p><strong>Tulipa — Meio da Asa</strong></p>
+                        <p style="margin-top: 8px;">8 pedaços de tulipa (meio da asa) empanados + 1 molho da casa + Refrigerante lata.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve bem 1 pessoa.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Pote Médio - Filezinho -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 POTE MÉDIO</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 52,90</div>
+                        <p><strong>Filezinho de Peito</strong></p>
+                        <p style="margin-top: 8px;">8 pedaços de filé de frango empanados + 2 molhos da casa + Refrigerante 1,5L.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve até 2 pessoas.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Pote Médio - Coxinha da Asa -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 POTE MÉDIO</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 48,90</div>
+                        <p><strong>Coxinha da Asa</strong></p>
+                        <p style="margin-top: 8px;">8 pedaços de coxinha de frango empanados + 2 molhos da casa + Refrigerante 1,5L.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve até 2 pessoas.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Pote Família - Coxinha da Asa -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 POTE FAMÍLIA</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 64,90</div>
+                        <p><strong>Coxinha da Asa</strong></p>
+                        <p style="margin-top: 8px;">14 pedaços de coxinha de frango empanados + 2 molhos da casa + Refrigerante 1,5L.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve até 4 pessoas.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Pote Família - Filezinho -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 POTE FAMÍLIA</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 73,90</div>
+                        <p><strong>Filezinho de Peito</strong></p>
+                        <p style="margin-top: 8px;">14 pedaços de filé de frango empanados + 2 opções de molho + Refrigerante 1,5L.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve até 4 pessoas.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Pote Grande Misto -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 POTE GRANDE MISTO</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 68,90</div>
+                        <p>16 pedaços empanados: 6 filés de frango + 4 coxinhas + 6 tulipas (meio da asa) + 2 molhos da casa + Refrigerante 1,5L.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve até 4 pessoas.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Combo da Galera -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍗 COMBO DA GALERA</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 94,90</div>
+                        <p>14 pedaços de filé de frango empanados + 2 molhos da casa + 400g de batata frita + Refrigerante 1,5L.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve até 5 pessoas.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- FRANGO: Pote de Batata -->
+                <div class="promo-card" data-categoria="frango">
+                    <div class="promo-badge combo-badge">🍟 POTE DE BATATA</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 32,90</div>
+                        <p>400g de batata frita crocante + 1 molho especial da casa + Refrigerante lata.</p>
+                        <p class="serve-info" style="margin-top: 10px;">Serve até 4 pessoas.</p>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart" style="margin-top: 16px;">Pedir agora</a>
+                    </div>
+                </div>
+
+                <!-- HOT-DOG: Combo Família Dog -->
+                <div class="promo-card" data-categoria="hotdogs">
+                    <div class="promo-badge combo-badge">🌭 COMBO FAMÍLIA DOG</div>
+                    <div class="promo-content">
+                        <div class="promo-price">R$ 65,90</div>
+                        <p style="margin-bottom: 16px; color: var(--text-muted); font-size: 0.9rem;">São 4 hot-dogs:</p>
+                        <div class="esfiha-item">
+                            <span class="pizza-nome">Dog Simples</span>
+                            <span class="esfiha-desc">Pão, molho de tomate, salsicha, milho e batata palha.</span>
+                        </div>
+                        <div class="esfiha-item">
+                            <span class="pizza-nome">Dog Picante</span>
+                            <span class="esfiha-desc">Pão, molho de tomate, salsicha, milho, mussarela, molho picante da casa e batata palha.</span>
+                        </div>
+                        <div class="esfiha-item">
+                            <span class="pizza-nome">Dog Grill Crocante</span>
+                            <span class="esfiha-desc">Pão, molho de tomate, salsicha, milho, bacon, maionese grill e batata palha.</span>
+                        </div>
+                        <div class="esfiha-item" style="border-bottom: none;">
+                            <span class="pizza-nome">Dog Maionese de Alho</span>
+                            <span class="esfiha-desc">Pão, molho de tomate, salsicha, milho, maionese de alho e batata palha.</span>
+                        </div>
+                        <div class="promo-aviso" style="margin-top: 16px;">❗ Não acompanha bebida.</div>
+                        <a href="#" class="btn btn-app w-100 text-center btn-pedido-smart">Pedir agora</a>
+                    </div>
+                </div>
+
+                <div class="empty-state" id="empty-state">
+                    <p style="font-size: 2rem;">🚧</p>
+                    <p>Em breve, promoções nessa categoria!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Seleção de App -->
+    <div id="modal-app" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-app-modal">&times;</span>
+            <h3 style="color: var(--brand-orange); margin-bottom: 10px;">Baixe nosso App</h3>
+            <p style="color: var(--text-muted);">Escolha sua loja de aplicativos para fazer seu pedido:</p>
+            
+            <div class="app-selection-grid">
+                <a href="https://apps.apple.com/br/app/qpizza-artesanais/id6746797108" target="_blank" class="app-option">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" alt="App Store">
+                    <span>iOS (iPhone)</span>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.wabiz.delivery.qpizzapp" target="_blank" class="app-option">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Google Play">
+                    <span>Android</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2026 QPIZZA. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">Um site criado e desenvolvido por <a href="https://www.instagram.com/carolribeirodev/" target="_blank" style="color: var(--brand-orange); text-decoration: none; font-weight: 600;">Carol Ribeiro</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Mobile
+        const menuToggle = document.getElementById('mobile-menu');
+        const nav = document.querySelector('nav ul');
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Filtro de categorias
+        const categoriaBtns = document.querySelectorAll('.categoria-btn');
+        const cards = document.querySelectorAll('.promo-card[data-categoria]');
+        const emptyState = document.getElementById('empty-state');
+
+        categoriaBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoriaBtns.forEach(b => b.classList.remove('ativo'));
+                btn.classList.add('ativo');
+
+                const cat = btn.dataset.cat;
+                let visiveis = 0;
+
+                cards.forEach(card => {
+                    if (card.dataset.categoria === cat) {
+                        card.classList.add('visivel');
+                        if (card.classList.contains('promo-card-full')) {
+                            card.style.display = 'flex';
+                        }
+                        visiveis++;
+                    } else {
+                        card.classList.remove('visivel');
+                        card.style.display = '';
+                    }
+                });
+
+                emptyState.style.display = visiveis === 0 ? 'block' : 'none';
+            });
+        });
+
+        // App Selection Modal Logic
+        const modalApp = document.getElementById('modal-app');
+        const btnPedido = document.querySelectorAll('.btn-pedido-smart');
+        const closeAppModal = document.getElementById('close-app-modal');
+
+        btnPedido.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modalApp.style.display = 'flex';
+            });
+        });
+
+        closeAppModal.onclick = () => {
+            modalApp.style.display = 'none';
+        };
+
+        window.onclick = (event) => {
+            if (event.target == modalApp) {
+                modalApp.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>

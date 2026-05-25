@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QPIZZA - A Melhor Pizza da Região</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <div class="logo">
+                <a href="index.html"><img src="qpizza2.logo.png" alt="QPIZZA Logo"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="informacoes.html">Informações</a></li>
+                    <li><a href="historia.html">Nossa História</a></li>
+                    <li><a href="index.html#localizacao">Localização</a></li>
+                    <li><a href="feedback.html" target="_blank">Deixe seu Feedback</a></li>
+                    <li><a href="trabalhe-conosco.html" target="_blank">Trabalhe Conosco</a></li>
+                    <li><a href="#" class="btn-reserva btn-pedido-smart">Faça seu Pedido</a></li>
+                    <li><a href="reserva.html" class="btn-reserva btn-reserva-outline">Faça sua reserva</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>Na QPIZZA, cada pedido é preparado<br>pra transformar sua fome em experiência.</h1>
+                <p>Pizza artesanal de verdade, frango frito crocante, esfihas recheadas e dogs caprichados.</p>
+                <div class="hero-buttons">
+                    <a href="https://www.instagram.com/qpizzaartesanais/" target="_blank" class="btn btn-insta">Instagram</a>
+                    <a href="#" class="btn btn-app btn-pedido-smart">Faça seu Pedido</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container text-center">
+                <h2 class="section-title">Nossas Promoções</h2>
+                <p>Confira nossas ofertas exclusivas para cada dia da semana.</p>
+                <a href="promocoes.html" class="btn btn-cta">Ver todas as promoções</a>
+            </div>
+        </section>
+
+        <section class="section bg-alt">
+            <div class="container text-center">
+                <h2 class="section-title">Dúvidas e Informações</h2>
+                <p style="margin-bottom: 30px;">Confira nossos horários, áreas de entrega e padrões de qualidade.</p>
+                <a href="informacoes.html" class="btn btn-insta">Ver informações completas</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container text-center">
+                <h2 class="section-title">Nossa História</h2>
+                <p style="margin-bottom: 30px;">Conheça a trajetória da QPIZZA e nossa paixão pela pizza artesanal.</p>
+                <a href="historia.html" class="btn btn-cta">Conhecer nossa história</a>
+            </div>
+        </section>
+
+        <section id="localizacao" class="section">
+            <div class="container">
+                <h2 class="section-title">Onde Estamos</h2>
+                <div class="locations-grid">
+                    <!-- Unidade Águas Claras -->
+                    <div class="location-item">
+                        <div class="address">
+                            <h3>Unidade Águas Claras</h3>
+                            <p>Rua das Figueiras, Quadra 101, Lote 2/4, Loja 12</p>
+                            <p>Águas Claras, Brasília - DF</p>
+                        </div>
+                        <div class="map-container">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3838.283187265113!2d-48.0268503!3d-15.8417122!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a3311f9535f29%3A0xc6c4f9a742886a11!2sR.%20das%20Figueiras%2C%20101%20-%20%C3%81guas%20Claras%2C%20Bras%C3%ADlia%20-%20DF%2C%2071906-750!5e0!3m2!1spt-BR!2sbr!4v1716300000000!5m2!1spt-BR!2sbr" 
+                                width="100%" 
+                                height="300" 
+                                style="border:0; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Unidade Cruzeiro Novo -->
+                    <div class="location-item">
+                        <div class="address">
+                            <h3>Unidade Cruzeiro Novo</h3>
+                            <p>SHCES Qd 1205</p>
+                            <p>Cruzeiro Novo, Brasília - DF</p>
+                        </div>
+                        <div class="map-container">
+                            <iframe 
+                                src="https://maps.google.com/maps?q=SHCES%20Qd%201205%20-%20Cruzeiro%20Novo%2C%20Bras%C3%ADlia%20-%20DF%2C%2070658-250&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                width="100%" 
+                                height="300" 
+                                style="border:0; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reserva" class="section bg-alt">
+            <div class="container text-center">
+                <h2 class="section-title">Faça sua reserva</h2>
+                <p>Garanta sua mesa para uma noite inesquecível.</p>
+                <a href="reserva.html" class="btn btn-cta">Iniciar Reserva</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Seleção de App -->
+    <div id="modal-app" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-app-modal">&times;</span>
+            <h3 style="color: var(--brand-orange); margin-bottom: 10px;">Baixe nosso App</h3>
+            <p style="color: var(--text-muted);">Escolha sua loja de aplicativos para fazer seu pedido:</p>
+            
+            <div class="app-selection-grid">
+                <a href="https://apps.apple.com/br/app/qpizza-artesanais/id6746797108" target="_blank" class="app-option">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" alt="App Store">
+                    <span>iOS (iPhone)</span>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.wabiz.delivery.qpizzapp" target="_blank" class="app-option">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Google Play">
+                    <span>Android</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2026 QPIZZA. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">Um site criado e desenvolvido por <a href="https://www.instagram.com/carolribeirodev/" target="_blank" style="color: var(--brand-orange); text-decoration: none; font-weight: 600;">Carol Ribeiro</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Mobile
+        const menuToggle = document.getElementById('mobile-menu');
+        const nav = document.querySelector('nav ul');
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // App Selection Modal Logic
+        const modalApp = document.getElementById('modal-app');
+        const btnPedido = document.querySelectorAll('.btn-pedido-smart');
+        const closeAppModal = document.getElementById('close-app-modal');
+
+        btnPedido.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modalApp.style.display = 'flex';
+            });
+        });
+
+        closeAppModal.onclick = () => {
+            modalApp.style.display = 'none';
+        };
+
+        window.onclick = (event) => {
+            if (event.target == modalApp) {
+                modalApp.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>

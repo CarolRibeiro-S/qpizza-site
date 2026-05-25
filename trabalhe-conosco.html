@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalhe Conosco - QPIZZA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .recrutamento-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 60px;
+            background: linear-gradient(rgba(28, 26, 25, 0.9), rgba(28, 26, 25, 0.9)), url('fundo site.jpeg') center/cover no-repeat;
+        }
+        .recrutamento-container {
+            background-color: var(--bg-alt);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1200px; /* Expanded to full page width */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid #444;
+        }
+        .recrutamento-container h2 {
+            color: var(--brand-orange);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+        .vagas-section {
+            margin-bottom: 50px;
+        }
+        .setor-container {
+            margin-bottom: 40px;
+        }
+        .setor-title {
+            color: var(--brand-orange);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .vagas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .vaga-card {
+            background-color: #1c1a19;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid var(--brand-orange);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .vaga-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .vaga-card h4 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .vaga-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+        .vaga-tags-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .vaga-tag {
+            background-color: rgba(241, 82, 35, 0.1);
+            color: var(--brand-orange);
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .form-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .back-link:hover {
+            color: var(--brand-orange);
+        }
+        .file-input-wrapper {
+            position: relative;
+            margin-top: 5px;
+        }
+        input[type="file"] {
+            background-color: #1c1a19;
+            border: 1px solid #444;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="file"]::file-selector-button {
+            background-color: var(--brand-orange);
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        input[type="file"]::file-selector-button:hover {
+            background-color: #d1421b;
+        }
+        .vaga-sem-vagas {
+            border-left: 5px solid #555;
+            opacity: 0.7;
+        }
+        .vaga-sem-vagas h4 {
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <div class="logo">
+                <a href="index.html"><img src="qpizza2.logo.png" alt="QPIZZA Logo"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="informacoes.html">Informações</a></li>
+                    <li><a href="historia.html">Nossa História</a></li>
+                    <li><a href="index.html#localizacao">Localização</a></li>
+                    <li><a href="feedback.html" target="_blank">Deixe seu Feedback</a></li>
+                    <li><a href="trabalhe-conosco.html" target="_blank">Trabalhe Conosco</a></li>
+                    <li><a href="#" class="btn-reserva btn-pedido-smart">Faça seu Pedido</a></li>
+                    <li><a href="reserva.html" class="btn-reserva btn-reserva-outline">Faça sua reserva</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="recrutamento-page">
+        <div class="recrutamento-container">
+            <a href="index.html" class="back-link">&larr; Voltar para o início</a>
+            
+            <div id="recrutamento-step-form">
+                <h2>Trabalhe Conosco</h2>
+                
+                <section class="vagas-section">
+                    <h3 class="text-center" style="margin-bottom: 40px; color: #fff;">Vagas em Aberto</h3>
+                    
+                    <!-- Setor: Cozinha -->
+                    <div class="setor-container">
+                        <h4 class="setor-title">Cozinha</h4>
+                        <div class="vagas-grid">
+                            <div class="vaga-card">
+                                <div>
+                                    <h4>Pizzaiolo</h4>
+                                    <p>Montagem de pizzas, abertura de massas e outras funções.</p>
+                                </div>
+                                <div class="vaga-tags-wrapper">
+                                    <span class="vaga-tag">CLT</span>
+                                    <span class="vaga-tag">Presencial</span>
+                                    <span class="vaga-tag">Vespertino</span>
+                                    <span class="vaga-tag">Noturno</span>
+                                    <span class="vaga-tag">Salário acima do mercado</span>
+                                    <span class="vaga-tag">Benefícios</span>
+                                </div>
+                            </div>
+                            <div class="vaga-card">
+                                <div>
+                                    <h4>Esfiheiro</h4>
+                                    <p>Preparo dos recheios, abertura das massas, montagem e outros.</p>
+                                </div>
+                                <div class="vaga-tags-wrapper">
+                                    <span class="vaga-tag">CLT</span>
+                                    <span class="vaga-tag">Presencial</span>
+                                    <span class="vaga-tag">Vespertino</span>
+                                    <span class="vaga-tag">Noturno</span>
+                                    <span class="vaga-tag">Salário acima do mercado</span>
+                                    <span class="vaga-tag">Benefícios</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Setor: Administrativo -->
+                    <div class="setor-container">
+                        <h4 class="setor-title">Administrativo</h4>
+                        <div class="vaga-card vaga-sem-vagas">
+                            <div>
+                                <h4>Sem vagas disponíveis no momento</h4>
+                                <p>Mas adoraríamos ter você no nosso banco de talentos! Envie seu currículo pelo formulário abaixo e entraremos em contato quando surgir uma oportunidade.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Setor: Motoboys -->
+                    <div class="setor-container">
+                        <h4 class="setor-title">Motoboys</h4>
+                        <div class="vagas-grid">
+                            <div class="vaga-card">
+                                <div>
+                                    <h4>Entregador</h4>
+                                    <p>Entrega com moto própria, registro em carteira, taxas e salário acima do mercado.</p>
+                                </div>
+                                <div class="vaga-tags-wrapper">
+                                    <span class="vaga-tag">CLT</span>
+                                    <span class="vaga-tag">Vespertino</span>
+                                    <span class="vaga-tag">Noturno</span>
+                                    <span class="vaga-tag">Salário acima do mercado</span>
+                                    <span class="vaga-tag">Benefícios</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Setor: Frente de Loja -->
+                    <div class="setor-container">
+                        <h4 class="setor-title">Frente de Loja</h4>
+                        <div class="vagas-grid">
+                            <div class="vaga-card">
+                                <div>
+                                    <h4>Atendente</h4>
+                                    <p>Responsável por atender o cliente, balcão, telefone, expedição e outros.</p>
+                                </div>
+                                <div class="vaga-tags-wrapper">
+                                    <span class="vaga-tag">CLT</span>
+                                    <span class="vaga-tag">Vespertino</span>
+                                    <span class="vaga-tag">Noturno</span>
+                                    <span class="vaga-tag">Salário acima do mercado</span>
+                                    <span class="vaga-tag">Benefícios</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr style="border: 0; border-top: 1px solid #444; margin: 40px 0;">
+
+                <div class="form-wrapper">
+                    <h3 class="text-center" style="margin-bottom: 20px; color: #fff;">Envie sua Candidatura</h3>
+                    <p class="text-center" style="margin-bottom: 30px; color: var(--text-muted);">Preencha os dados abaixo e anexe seu currículo para participar do processo seletivo.</p>
+                    <form id="form-recrutamento">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" required placeholder="Digite seu nome">
+                        </div>
+                        <div class="form-group">
+                            <label for="whatsapp">WhatsApp</label>
+                            <input type="tel" id="whatsapp" required placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" required placeholder="seu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="residencia">Local onde reside (Bairro/Cidade)</label>
+                            <input type="text" id="residencia" required placeholder="Ex: Águas Claras, Brasília - DF">
+                        </div>
+                        <div class="form-group">
+                            <label for="curriculo">Anexe seu Currículo (PDF ou DOCX)</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="curriculo" accept=".pdf,.doc,.docx" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-app w-100" style="margin-top: 20px;">Enviar Candidatura</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="recrutamento-step-confirm" style="display: none;" class="text-center">
+                <div class="success-icon">✅</div>
+                <h2>Candidatura Enviada!</h2>
+                <p>Recebemos seus dados e seu currículo. Caso seu perfil combine com nossas vagas, entraremos em contato.</p>
+                <p style="margin-top: 15px;">Boa sorte!</p>
+                <a href="index.html" class="btn btn-insta" style="margin-top: 30px;">Voltar para o início</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Seleção de App -->
+    <div id="modal-app" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-app-modal">&times;</span>
+            <h3 style="color: var(--brand-orange); margin-bottom: 10px;">Baixe nosso App</h3>
+            <p style="color: var(--text-muted);">Escolha sua loja de aplicativos para fazer seu pedido:</p>
+            
+            <div class="app-selection-grid">
+                <a href="https://apps.apple.com/br/app/qpizza-artesanais/id6746797108" target="_blank" class="app-option">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" alt="App Store">
+                    <span>iOS (iPhone)</span>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.wabiz.delivery.qpizzapp" target="_blank" class="app-option">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Google Play">
+                    <span>Android</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2026 QPIZZA. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">Um site criado e desenvolvido por <a href="https://www.instagram.com/carolribeirodev/" target="_blank" style="color: var(--brand-orange); text-decoration: none; font-weight: 600;">Carol Ribeiro</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Mobile
+        const menuToggle = document.getElementById('mobile-menu');
+        const nav = document.querySelector('nav ul');
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        const form = document.getElementById('form-recrutamento');
+        const formStep = document.getElementById('recrutamento-step-form');
+        const confirmStep = document.getElementById('recrutamento-step-confirm');
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            formStep.style.display = 'none';
+            confirmStep.style.display = 'block';
+            window.scrollTo(0, 0);
+        };
+
+        // App Selection Modal Logic
+        const modalApp = document.getElementById('modal-app');
+        const btnPedido = document.querySelectorAll('.btn-pedido-smart');
+        const closeAppModal = document.getElementById('close-app-modal');
+
+        btnPedido.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modalApp.style.display = 'flex';
+            });
+        });
+
+        closeAppModal.onclick = () => {
+            modalApp.style.display = 'none';
+        };
+
+        window.onclick = (event) => {
+            if (event.target == modalApp) {
+                modalApp.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
