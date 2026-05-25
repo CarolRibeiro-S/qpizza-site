@@ -324,6 +324,46 @@
         const outroEventoGroup = document.getElementById('outro-evento-group');
         const outroEventoInput = document.getElementById('outro_evento');
         const submitBtn = form.querySelector('button[type="submit"]');
+        const dateInput = document.getElementById('data_reserva');
+        const horarioSelect = document.getElementById('horario');
+
+        // Bloqueia datas passadas
+        const hoje = new Date();
+        const hojeStr = hoje.toISOString().split('T')[0];
+        dateInput.min = hojeStr;
+
+        // Atualiza horários disponíveis conforme a data escolhida
+        function atualizarHorarios() {
+            const dataSelecionada = dateInput.value;
+            const agora = new Date();
+            const ehHoje = dataSelecionada === hojeStr;
+
+            Array.from(horarioSelect.options).forEach(option => {
+                if (!option.value) return;
+
+                if (ehHoje) {
+                    const [h, m] = option.value.split(':').map(Number);
+                    const horarioSlot = new Date(agora);
+                    horarioSlot.setHours(h, m, 0, 0);
+                    // Exige ao menos 1h de antecedência
+                    const bloqueado = horarioSlot <= new Date(agora.getTime() + 60 * 60 * 1000);
+                    option.disabled = bloqueado;
+                    option.style.color = bloqueado ? '#555' : '';
+                } else {
+                    option.disabled = false;
+                    option.style.color = '';
+                }
+            });
+
+            // Limpa seleção se o horário atual foi bloqueado
+            const opcaoAtual = horarioSelect.options[horarioSelect.selectedIndex];
+            if (opcaoAtual && opcaoAtual.disabled) {
+                horarioSelect.value = '';
+            }
+        }
+
+        dateInput.addEventListener('change', atualizarHorarios);
+        atualizarHorarios();
 
         tipoEventoSelect.addEventListener('change', () => {
             if (tipoEventoSelect.value === 'Outro') {
