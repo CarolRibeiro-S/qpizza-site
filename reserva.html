@@ -327,43 +327,75 @@
         const dateInput = document.getElementById('data_reserva');
         const horarioSelect = document.getElementById('horario');
 
-        // Bloqueia datas passadas
-        const hoje = new Date();
-        const hojeStr = hoje.toISOString().split('T')[0];
-        dateInput.min = hojeStr;
+        // Data local correta (sem conversão UTC que adianta o fuso)
+        function hojeLocal() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
 
-        // Atualiza horários disponíveis conforme a data escolhida
+        // Bloqueia datas passadas usando data local
+        dateInput.min = hojeLocal();
+
+        // --- Gerenciamento de vagas via localStorage ---
+        const STORAGE_KEY = 'qpizza_reservas';
+        const LIMITE_VAGAS = 2;
+
+        function getReservas() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+            catch { return {}; }
+        }
+
+        function registrarReserva(data, horario) {
+            const reservas = getReservas();
+            const chave = `${data}_${horario}`;
+            reservas[chave] = (reservas[chave] || 0) + 1;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(reservas));
+        }
+
+        function vagasDisponiveis(data, horario) {
+            const reservas = getReservas();
+            return (reservas[`${data}_${horario}`] || 0) < LIMITE_VAGAS;
+        }
+
+        // Atualiza horários disponíveis conforme data escolhida
         function atualizarHorarios() {
             const dataSelecionada = dateInput.value;
+            if (!dataSelecionada) return;
+
             const agora = new Date();
-            const ehHoje = dataSelecionada === hojeStr;
+            const ehHoje = dataSelecionada === hojeLocal();
 
             Array.from(horarioSelect.options).forEach(option => {
                 if (!option.value) return;
 
+                let bloqueado = false;
+
+                // Bloqueia horários passados se for hoje (com 1h de antecedência)
                 if (ehHoje) {
                     const [h, m] = option.value.split(':').map(Number);
-                    const horarioSlot = new Date(agora);
-                    horarioSlot.setHours(h, m, 0, 0);
-                    // Exige ao menos 1h de antecedência
-                    const bloqueado = horarioSlot <= new Date(agora.getTime() + 60 * 60 * 1000);
-                    option.disabled = bloqueado;
-                    option.style.color = bloqueado ? '#555' : '';
-                } else {
-                    option.disabled = false;
-                    option.style.color = '';
+                    const slot = new Date(agora);
+                    slot.setHours(h, m, 0, 0);
+                    bloqueado = slot <= new Date(agora.getTime() + 60 * 60 * 1000);
                 }
+
+                // Bloqueia horários com 2 reservas confirmadas
+                if (!bloqueado && !vagasDisponiveis(dataSelecionada, option.value)) {
+                    bloqueado = true;
+                }
+
+                option.disabled = bloqueado;
+                option.style.color = bloqueado ? '#555' : '';
+                option.textContent = bloqueado
+                    ? `${option.value} — Indisponível`
+                    : option.value;
             });
 
-            // Limpa seleção se o horário atual foi bloqueado
-            const opcaoAtual = horarioSelect.options[horarioSelect.selectedIndex];
-            if (opcaoAtual && opcaoAtual.disabled) {
-                horarioSelect.value = '';
-            }
+            // Limpa seleção se o horário escolhido foi bloqueado
+            const atual = horarioSelect.options[horarioSelect.selectedIndex];
+            if (atual && atual.disabled) horarioSelect.value = '';
         }
 
         dateInput.addEventListener('change', atualizarHorarios);
-        atualizarHorarios();
 
         tipoEventoSelect.addEventListener('change', () => {
             if (tipoEventoSelect.value === 'Outro') {
@@ -380,6 +412,9 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Enviando...';
 
+            const dataSelecionada = dateInput.value;
+            const horarioSelecionado = horarioSelect.value;
+
             try {
                 const response = await fetch(form.action, {
                     method: 'POST',
@@ -388,6 +423,9 @@
                 });
 
                 if (response.ok) {
+                    // Registra a vaga como ocupada após envio confirmado
+                    registrarReserva(dataSelecionada, horarioSelecionado);
+
                     const code = 'QP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
                     document.getElementById('codigo-verificador').innerText = code;
                     formStep.style.display = 'none';
