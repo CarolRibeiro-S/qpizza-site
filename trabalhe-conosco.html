@@ -292,38 +292,39 @@
                 <div class="form-wrapper">
                     <h3 class="text-center" style="margin-bottom: 20px; color: #fff;">Envie sua Candidatura</h3>
                     <p class="text-center" style="margin-bottom: 30px; color: var(--text-muted);">Preencha os dados abaixo e anexe seu currículo para participar do processo seletivo.</p>
-                    <form id="form-recrutamento">
+                    <form id="form-recrutamento" action="https://formspree.io/f/mkoeqrqv" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="_subject" value="Nova Candidatura — QPizza">
                         <div class="form-group">
-                            <label for="nome">Nome Completo</label>
-                            <input type="text" id="nome" required placeholder="Digite seu nome">
+                            <label for="nome_candidato">Nome Completo</label>
+                            <input type="text" id="nome_candidato" name="nome_completo" required placeholder="Seu nome completo">
                         </div>
                         <div class="form-group">
-                            <label for="whatsapp">WhatsApp</label>
-                            <input type="tel" id="whatsapp" required placeholder="(00) 00000-0000">
+                            <label for="whatsapp_candidato">WhatsApp</label>
+                            <input type="tel" id="whatsapp_candidato" name="whatsapp" required placeholder="(00) 00000-0000">
                         </div>
                         <div class="form-group">
-                            <label for="email">E-mail</label>
-                            <input type="email" id="email" required placeholder="seu@email.com">
+                            <label for="email_candidato">E-mail</label>
+                            <input type="email" id="email_candidato" name="email" required placeholder="seu@email.com">
                         </div>
                         <div class="form-group">
-                            <label for="residencia">Local onde reside (Bairro/Cidade)</label>
-                            <input type="text" id="residencia" required placeholder="Ex: Águas Claras, Brasília - DF">
+                            <label for="local">Local onde reside (Bairro/Cidade)</label>
+                            <input type="text" id="local" name="local_residencia" required placeholder="Ex: Águas Claras, Brasília - DF">
                         </div>
                         <div class="form-group">
                             <label for="cargo">Cargo de interesse</label>
-                            <select id="cargo" required>
+                            <select id="cargo" name="cargo_interesse" required>
                                 <option value="" disabled selected>Selecione o cargo...</option>
                                 <option value="Pizzaiolo">Pizzaiolo</option>
                                 <option value="Esfiheiro">Esfiheiro</option>
-                                <option value="Entregador">Entregador (Motoboy)</option>
-                                <option value="Atendente">Atendente (Frente de Loja)</option>
-                                <option value="Banco de Talentos">Banco de Talentos (Administrativo)</option>
+                                <option value="Entregador (Motoboy)">Entregador (Motoboy)</option>
+                                <option value="Atendente (Frente de Loja)">Atendente (Frente de Loja)</option>
+                                <option value="Banco de Talentos (Administrativo)">Banco de Talentos (Administrativo)</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="curriculo">Anexe seu Currículo (PDF ou DOCX)</label>
                             <div class="file-input-wrapper">
-                                <input type="file" id="curriculo" accept=".pdf,.doc,.docx" required>
+                                <input type="file" id="curriculo" name="curriculo" accept=".pdf,.docx" required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-app w-100" style="margin-top: 20px;">Enviar Candidatura</button>
@@ -384,13 +385,36 @@
         const form = document.getElementById('form-recrutamento');
         const formStep = document.getElementById('recrutamento-step-form');
         const confirmStep = document.getElementById('recrutamento-step-confirm');
+        const submitBtn = form.querySelector('button[type="submit"]');
 
-        form.onsubmit = (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            formStep.style.display = 'none';
-            confirmStep.style.display = 'block';
-            window.scrollTo(0, 0);
-        };
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+
+            try {
+                // Não definir Content-Type — o browser seta o boundary do multipart automaticamente
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    formStep.style.display = 'none';
+                    confirmStep.style.display = 'block';
+                    window.scrollTo(0, 0);
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Enviar Candidatura';
+                    alert('Erro ao enviar. Tente novamente.');
+                }
+            } catch {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar Candidatura';
+                alert('Erro ao enviar. Verifique sua conexão.');
+            }
+        });
 
         // App Selection Modal Logic
         const modalApp = document.getElementById('modal-app');
