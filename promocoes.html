@@ -229,12 +229,37 @@
             grid-template-columns: 1fr 1fr;
             gap: 0 20px;
         }
+        @media (max-width: 768px) {
+            .promocoes-page {
+                padding: 100px 16px 60px;
+            }
+            .categorias {
+                gap: 8px;
+            }
+            .categoria-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+                flex: 1 1 calc(50% - 4px);
+                text-align: center;
+            }
+            .promocoes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
         @media (max-width: 640px) {
             .terca-quarta-grid {
                 grid-template-columns: 1fr;
             }
             .pizzas-grandes-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .categoria-btn {
+                flex: 1 1 100%;
+            }
+            .promo-content {
+                padding: 18px;
             }
         }
     </style>
@@ -786,6 +811,10 @@
             nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
+        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }));
 
         // Filtro de categorias
         const categoriaBtns = document.querySelectorAll('.categoria-btn');

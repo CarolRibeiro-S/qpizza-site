@@ -116,11 +116,25 @@
             color: var(--brand-orange);
         }
         @media (max-width: 768px) {
+            .reserva-page {
+                padding: 100px 16px 60px;
+            }
             .reserva-layout {
                 grid-template-columns: 1fr;
             }
             .reserva-info {
                 position: static;
+            }
+            .reserva-info,
+            .reserva-form-box {
+                padding: 28px 20px;
+            }
+            .reserva-info h2,
+            .reserva-form-box h2 {
+                font-size: 1.5rem;
+            }
+            .reserva-telefone {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -298,6 +312,10 @@
             nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
+        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }));
 
         const form = document.getElementById('form-reserva');
         const formStep = document.getElementById('reserva-step-form');

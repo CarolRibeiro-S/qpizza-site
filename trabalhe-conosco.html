@@ -141,6 +141,27 @@
         .vaga-sem-vagas h4 {
             color: var(--text-muted);
         }
+        @media (max-width: 768px) {
+            .recrutamento-page {
+                padding: 100px 16px 60px;
+                align-items: flex-start;
+            }
+            .recrutamento-container {
+                padding: 25px 20px;
+            }
+            .recrutamento-container h2 {
+                font-size: 1.8rem;
+            }
+            .vagas-grid {
+                grid-template-columns: 1fr;
+            }
+            .setor-title {
+                font-size: 1.2rem;
+            }
+            .form-wrapper {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -344,6 +365,10 @@
             nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
+        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }));
 
         const form = document.getElementById('form-recrutamento');
         const formStep = document.getElementById('recrutamento-step-form');

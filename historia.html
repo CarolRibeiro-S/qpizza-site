@@ -32,7 +32,7 @@
         }
         .historia-image {
             flex: 1;
-            min-width: 300px;
+            min-width: min(300px, 100%);
         }
         .historia-image img {
             width: 100%;
@@ -42,7 +42,7 @@
         }
         .historia-text {
             flex: 1;
-            min-width: 300px;
+            min-width: min(300px, 100%);
         }
         .historia-text h2 {
             color: var(--brand-orange);
@@ -67,11 +67,20 @@
             color: var(--brand-orange);
         }
         @media (max-width: 768px) {
+            .historia-page {
+                padding: 100px 16px 60px;
+            }
             .historia-content {
                 padding: 30px 20px;
             }
+            .historia-flex {
+                gap: 30px;
+            }
             .historia-text h2 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+            .historia-text p {
+                font-size: 1rem;
             }
         }
     </style>
@@ -157,6 +166,10 @@
             nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
+        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }));
 
         // App Selection Modal Logic
         const modalApp = document.getElementById('modal-app');

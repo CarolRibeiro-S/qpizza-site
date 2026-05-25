@@ -147,9 +147,32 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
+            .info-page {
+                padding: 100px 16px 60px;
+            }
+            .categorias {
+                gap: 8px;
+            }
+            .categoria-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+                flex: 1 1 calc(50% - 4px);
+                text-align: center;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .info-card {
+                padding: 25px 20px;
+            }
             .trem-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .categoria-btn {
+                flex: 1 1 100%;
             }
         }
         .btn-peca-app {
@@ -420,6 +443,10 @@
             nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
+        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }));
 
         // Filtro de seções
         const infoFiltros = document.querySelectorAll('.categoria-btn[data-info]');

@@ -122,11 +122,50 @@
             border-color: var(--brand-orange);
         }
         @media (max-width: 768px) {
+            .feedback-page {
+                padding: 100px 12px 60px;
+                overflow-x: hidden;
+            }
+            .feedback-container {
+                width: 100%;
+                max-width: 100%;
+            }
             .feedback-layout {
                 grid-template-columns: 1fr;
+                gap: 20px;
+                width: 100%;
             }
             .feedback-info {
                 position: static;
+                padding: 24px 16px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .feedback-form-box {
+                padding: 24px 16px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .feedback-info h2,
+            .feedback-form-box h2 {
+                font-size: 1.4rem;
+                word-break: break-word;
+            }
+            .feedback-topicos li {
+                font-size: 0.9rem;
+            }
+            .feedback-aviso {
+                font-size: 0.82rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .feedback-form-box input,
+            .feedback-form-box select,
+            .feedback-form-box textarea {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                font-size: 16px;
             }
         }
     </style>
@@ -271,6 +310,10 @@
             nav.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
+        nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }));
 
         const form = document.getElementById('form-feedback');
         const formStep = document.getElementById('feedback-step-form');
