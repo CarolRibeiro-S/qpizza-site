@@ -274,8 +274,7 @@
 
             <!-- FILTROS -->
             <div class="categorias" style="margin-top: 30px;">
-                <button class="categoria-btn ativo" data-info="tudo">Tudo</button>
-                <button class="categoria-btn" data-info="geral">Informações Gerais</button>
+                <button class="categoria-btn ativo" data-info="geral">Informações Gerais</button>
                 <button class="categoria-btn" data-info="duvidas">Dúvidas Frequentes</button>
             </div>
 
@@ -339,7 +338,7 @@
                     <h3>📍 Quantas Unidades?</h3>
                     <ul>
                         <li><strong>Águas Claras</strong> — Unidade presencial com delivery.</li>
-                        <li><strong>Cruzeiro</strong> — Atendimento exclusivo por delivery.</li>
+                        <li><strong>Cruzeiro</strong> — Delivery e retirada no balcão.</li>
                     </ul>
                 </div>
 
@@ -371,7 +370,6 @@
                 <div class="info-card" data-section="duvidas">
                     <h3>👨‍👩‍👧 Espaço Infantil</h3>
                     <p><strong>Brinquedoteca</strong> — diversão garantida para os pequenos em um ambiente pensado para toda a família aproveitar junta.</p>
-                    <div class="info-aviso" style="margin-top: 14px;">Ambiente seguro e supervisionado para as crianças.</div>
                 </div>
 
                 <div class="info-card" data-section="duvidas">
@@ -453,29 +451,25 @@
         const blocosTitulo = document.querySelectorAll('.info-bloco-title[data-section]');
         const blocosGrid = document.querySelectorAll('.info-grid[data-section]');
 
+        function aplicarFiltro(filtro) {
+            blocosTitulo.forEach(el => {
+                el.classList.toggle('oculto', el.dataset.section !== filtro);
+            });
+            blocosGrid.forEach(el => {
+                el.classList.toggle('oculto', el.dataset.section !== filtro);
+            });
+        }
+
         infoFiltros.forEach(btn => {
             btn.addEventListener('click', () => {
                 infoFiltros.forEach(b => b.classList.remove('ativo'));
                 btn.classList.add('ativo');
-                const filtro = btn.dataset.info;
-
-                blocosTitulo.forEach(el => {
-                    if (filtro === 'tudo' || el.dataset.section === filtro) {
-                        el.classList.remove('oculto');
-                    } else {
-                        el.classList.add('oculto');
-                    }
-                });
-
-                blocosGrid.forEach(el => {
-                    if (filtro === 'tudo' || el.dataset.section === filtro) {
-                        el.classList.remove('oculto');
-                    } else {
-                        el.classList.add('oculto');
-                    }
-                });
+                aplicarFiltro(btn.dataset.info);
             });
         });
+
+        // Inicializa mostrando só "Informações Gerais"
+        aplicarFiltro('geral');
 
         function toggleAppLinks() {
             const links = document.getElementById('app-links-info');
