@@ -327,8 +327,10 @@
                         <div class="form-group">
                             <label for="curriculo">Anexe seu Currículo (PDF ou DOCX)</label>
                             <div class="file-input-wrapper">
-                                <input type="file" id="curriculo" name="curriculo" accept=".pdf,.doc,.docx" required>
+                                <input type="file" id="curriculo" accept=".pdf,.doc,.docx">
                             </div>
+                            <div id="upload-status" style="margin-top: 8px; font-size: 0.88rem; font-weight: 600; min-height: 20px;"></div>
+                            <input type="hidden" id="curriculo_url" name="curriculo_url">
                         </div>
                         <button type="submit" class="btn btn-app w-100" style="margin-top: 20px;">Enviar Candidatura</button>
                     </form>
@@ -390,9 +392,59 @@
         const formStep = document.getElementById('recrutamento-step-form');
         const confirmStep = document.getElementById('recrutamento-step-confirm');
         const submitBtn = form.querySelector('button[type="submit"]');
+        const fileInput = document.getElementById('curriculo');
+        const curriculoUrl = document.getElementById('curriculo_url');
+        const uploadStatus = document.getElementById('upload-status');
+
+        // Upload automático ao Cloudinary ao selecionar o arquivo
+        fileInput.addEventListener('change', async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            uploadStatus.textContent = '⏳ Enviando arquivo...';
+            uploadStatus.style.color = '#ffb49a';
+            curriculoUrl.value = '';
+
+            const data = new FormData();
+            data.append('file', file);
+            data.append('upload_preset', 'qpizza_curriculos');
+
+            try {
+                const res = await fetch('https://api.cloudinary.com/v1_1/dyacdjm3u/raw/upload', {
+                    method: 'POST',
+                    body: data
+                });
+                const result = await res.json();
+
+                if (result.secure_url) {
+                    curriculoUrl.value = result.secure_url;
+                    uploadStatus.textContent = '✅ Arquivo anexado com sucesso!';
+                    uploadStatus.style.color = '#a0f0a0';
+                } else {
+                    uploadStatus.textContent = '❌ Erro ao enviar arquivo. Tente novamente.';
+                    uploadStatus.style.color = '#ff6b6b';
+                    fileInput.value = '';
+                }
+            } catch {
+                uploadStatus.textContent = '❌ Erro de conexão. Tente novamente.';
+                uploadStatus.style.color = '#ff6b6b';
+                fileInput.value = '';
+            }
+        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // Verifica se o arquivo foi anexado e enviado ao Cloudinary
+            if (fileInput.files.length > 0 && !curriculoUrl.value) {
+                alert('Aguarde o upload do arquivo terminar antes de enviar.');
+                return;
+            }
+            if (!curriculoUrl.value) {
+                alert('Por favor, anexe seu currículo antes de enviar.');
+                return;
+            }
+
             submitBtn.disabled = true;
             submitBtn.textContent = 'Enviando...';
 
@@ -414,7 +466,7 @@
                     submitBtn.textContent = 'Enviar Candidatura';
                     alert('Erro ao enviar. Tente novamente.');
                 }
-            } catch (err) {
+            } catch {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Enviar Candidatura';
                 alert('Erro de conexão. Verifique sua internet.');
